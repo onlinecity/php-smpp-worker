@@ -1,0 +1,3 @@
+[submodule "smpp"]
+	path = smpp
+	url = git@github.com:onlinecity/php-smpp.git
