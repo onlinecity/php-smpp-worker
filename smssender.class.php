@@ -174,7 +174,7 @@ class SmsSender
 				
 				// Send message
 				$ids = array();
-				$msisdn = array();
+				$msisdns = array();
 				try {
 					$i = 0;
 					foreach ($sms->recipients as $number) {
@@ -196,7 +196,7 @@ class SmsSender
 								$this->debug($s);
 							}
 							$ids = array();
-							$msisdn = array();
+							$msisdns = array();
 						}
 					}
 				} catch (\Exception $e) {
