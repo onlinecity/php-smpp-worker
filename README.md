@@ -6,12 +6,11 @@ Requirements
  * PHP 5.3+
  * [redis 2.1.7+](http://redis.io/)
  * [phpredis](https://github.com/nicolasff/phpredis) - tested with: nicolasff/phpredis@1d6133d4cfc71c555ab4b8551d2818925f7cb444 must support [brpoplpush](http://redis.io/commands/brpoplpush)
- * [igbinary](https://github.com/dynamoid/igbinary) (optional)
+ * [igbinary](https://github.com/igbinary/igbinary) (optional)
  * php extensions
   * [posix](http://dk.php.net/manual/en/book.posix.php)
   * [pcntl](http://dk.php.net/manual/en/book.pcntl.php)
   * [sockets](http://dk.php.net/manual/en/book.sockets.php)
-  * [pcre](http://dk.php.net/manual/en/book.pcre.php)
   * [pcre](http://dk.php.net/manual/en/book.pcre.php)
   * [mbstring](http://dk.php.net/manual/en/ref.mbstring.php)
 
