@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Redis backend abstraction layer.
+ * Using the phpredis extension this class will handle all operations with the redis backend.
+ * 
+ * Copyright (C) 2011 OnlineCity
+ * Licensed under the MIT license, which can be read at: http://www.opensource.org/licenses/mit-license.php
+ * @author hd@onlinecity.dk
+ */
 class QueueModel
 {
 	protected $redis;

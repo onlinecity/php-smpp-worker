@@ -4,6 +4,15 @@ require_once 'smpp'.DIRECTORY_SEPARATOR.'sockettransport.class.php';
 require_once 'smpp'.DIRECTORY_SEPARATOR.'smppclient.class.php';
 require_once 'smpp'.DIRECTORY_SEPARATOR.'gsmencoder.class.php';
 
+/**
+ * Receiver worker, which will wait for new SMS'es on the socket.
+ * Any received delivery receipts will be converted to a special DeliveryReport object and stored.
+ * Delivery receipts are processed in batches of 500, or when idle.
+ * 
+ * Copyright (C) 2011 OnlineCity
+ * Licensed under the MIT license, which can be read at: http://www.opensource.org/licenses/mit-license.php
+ * @author hd@onlinecity.dk
+ */
 class SmsReceiver
 {
 	protected $options;

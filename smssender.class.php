@@ -4,6 +4,15 @@ require_once 'smpp'.DIRECTORY_SEPARATOR.'sockettransport.class.php';
 require_once 'smpp'.DIRECTORY_SEPARATOR.'smppclient.class.php';
 require_once 'smpp'.DIRECTORY_SEPARATOR.'gsmencoder.class.php';
 
+/**
+ * SMS worker for sending SMSes.
+ * Uses a blocking operation to wait for new SMS'es and sends them using SMPP in batches of 10. 
+ * It will store the ids from the SMSC for every batch.
+ * 
+ * Copyright (C) 2011 OnlineCity
+ * Licensed under the MIT license, which can be read at: http://www.opensource.org/licenses/mit-license.php
+ * @author hd@onlinecity.dk
+ */
 class SmsSender
 {
 	protected $options;

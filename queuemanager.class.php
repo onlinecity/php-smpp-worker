@@ -1,6 +1,15 @@
 <?php
 require_once 'queuemodel.class.php';
 
+/**
+ * Queue manager/helper for monitoring deferred messages.
+ * Messages will be held in the deferred queue for a configurable time, and then 
+ * retried a configurable number of times before finally failing completely.
+ * 
+ * Copyright (C) 2011 OnlineCity
+ * Licensed under the MIT license, which can be read at: http://www.opensource.org/licenses/mit-license.php
+ * @author hd@onlinecity.dk
+ */
 class QueueManager
 {
 	protected $options;
