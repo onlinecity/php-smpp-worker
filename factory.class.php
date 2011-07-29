@@ -113,8 +113,6 @@ class SmsFactory
 					} else { // Something happend to our child
 						$exitedPid = $info['pid'];
 						$status = $info['status'];
-						$utime = $info['utime'];
-						$stime = $info['stime'];
 						
 						// What happened to our child?
 						if (pcntl_wifsignaled($status)) {
@@ -124,7 +122,7 @@ class SmsFactory
 						} else {
 							$what = 'returned for some reason';
 						}
-						$this->debug("Pid: $exitedPid $what, utime:$utime, stime:$stime");
+						$this->debug("Pid: $exitedPid $what");
 					}
 					
 					// Respawn
