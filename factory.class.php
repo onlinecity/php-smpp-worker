@@ -123,6 +123,16 @@ class SmsFactory
 							$what = 'returned for some reason';
 						}
 						$this->debug("Pid: $exitedPid $what");
+						
+						// Sleep one second to prevent aggressive respawns and to allow signal processing to complete
+						$this->debug("One second respawn timeout...");
+						sleep(1);
+						
+						// Reap all children (otherwise we get zombies)
+						do {
+							$rpid = pcntl_waitpid(-1,$ws,WNOHANG);
+							if ($rpid) $this->debug("Reaped PID: $rpid");
+						} while ($rpid != 0);
 					}
 					
 					// Respawn
@@ -137,8 +147,38 @@ class SmsFactory
 						$c = 'SmsSender';
 					}
 					$i--;
-					$this->debug("Will respawn new $c to cover loss in one second");
-					sleep(1); // Sleep for one second before respawning child
+					$this->debug("Will respawn new $c to cover loss");
+					
+					// Check if any other children died (they might fail simultaneously)
+					// For this to work children must be reaped first (zombies still has the same SID)
+					$mySid = posix_getsid(getmypid());
+					if (isset($this->queueManagerPid)) {
+						$sid = posix_getsid($this->queueManagerPid);
+						if ($sid === false || $sid != $mySid) {
+						 	unset($this->queueManagerPid);
+						 	$i--;
+						 	$this->debug("Will *also* respawn new QueueManager to cover loss");
+						 }
+					}
+					if (isset($this->receiverPid)) {
+						$sid = posix_getsid($this->receiverPid);
+						if ($sid === false || $sid != $mySid) {
+							unset($this->receiverPid);
+							$i--;
+							$this->debug("Will *also* respawn new SmsReceiver to cover loss");
+						}
+					}
+					foreach ($this->senderPids as $senderPid) {
+						echo "PID: ".$senderPid." SID:";
+						$sid = posix_getsid($senderPid);
+						var_dump($sid);
+						if ($sid === false || $sid != $mySid) {
+							unset($this->senderPids[$senderPid]);
+							$i--;
+							$this->debug("Will *also* respawn new SmsSender to cover loss of PID:$senderPid");
+						}
+					}
+					
 					continue;
 					break;
 			}
