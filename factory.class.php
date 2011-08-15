@@ -169,9 +169,7 @@ class SmsFactory
 						}
 					}
 					foreach ($this->senderPids as $senderPid) {
-						echo "PID: ".$senderPid." SID:";
 						$sid = posix_getsid($senderPid);
-						var_dump($sid);
 						if ($sid === false || $sid != $mySid) {
 							unset($this->senderPids[$senderPid]);
 							$i--;
