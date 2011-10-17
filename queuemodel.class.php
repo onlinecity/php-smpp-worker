@@ -77,14 +77,15 @@ class QueueModel
 	 */
 	public function storeIds($smsId,array $smscIds,array $msisdns)
 	{
+		$retention = (int) $options['queue']['retention'];
 		$pipeline = $this->redis->multi(Redis::PIPELINE);
 		foreach ($smscIds as $i => $id) {
 			$pipeline->sAdd($this->key.':ids:'.$smsId,$id);
 			$pipeline->sAdd($this->key.':msisdns:'.$smsId,$msisdns[$i]);
-			$pipeline->setex($this->key.':id:'.$id,3600*24,$smsId);
+			$pipeline->setex($this->key.':id:'.$id,3600*$retention,$smsId);
 		}
-		$pipeline->expire($this->key.':ids:'.$smsId,3600*24);
-		$pipeline->expire($this->key.':msisdns:'.$smsId,3600*24);
+		$pipeline->expire($this->key.':ids:'.$smsId,3600*$retention);
+		$pipeline->expire($this->key.':msisdns:'.$smsId,3600*$retention);
 		$replies = $pipeline->exec();
 		return end($replies);
 	}
