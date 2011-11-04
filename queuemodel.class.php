@@ -77,7 +77,7 @@ class QueueModel
 	 */
 	public function storeIds($smsId,array $smscIds,array $msisdns)
 	{
-		$retention = (int) $options['queue']['retention'];
+		$retention = (int) $this->options['queue']['retention'];
 		$pipeline = $this->redis->multi(Redis::PIPELINE);
 		foreach ($smscIds as $i => $id) {
 			$pipeline->sAdd($this->key.':ids:'.$smsId,$id);
