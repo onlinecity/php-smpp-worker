@@ -24,6 +24,7 @@ class QueueModel
 	{
 		$this->redis = new Redis();
 		$this->redis->connect($options['queue']['host'],$options['queue']['port'],$options['queue']['connect_timeout']);
+		$this->redis->select($options['queue']['index']);
 		$this->key = $options['queue']['queuekey'];
 		$this->useIgBinary = ($options['queue']['use_igbinary'] && function_exists('igbinary_serialize'));
 		$this->options = $options;
