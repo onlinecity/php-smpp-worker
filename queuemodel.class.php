@@ -66,7 +66,7 @@ class QueueModel
 	public function consume($pid,$timeout=5)
 	{
 		$m = $this->redis->brpoplpush($this->key.':inactive',$this->key.':active:'.$pid,$timeout);
-		if ($m === false) return $m;
+		if (is_null($m) || $m == '*-1') return null;
 		return $this->unserialize($m);
 	}
 	
@@ -159,6 +159,7 @@ class QueueModel
 	public function lastDeferred()
 	{
 		$m = $this->redis->lIndex($this->key.':deferred',-1);
+		if (is_null($m) || $m == '*-1') return null;
 		return $this->unserialize($m);
 	}
 	
