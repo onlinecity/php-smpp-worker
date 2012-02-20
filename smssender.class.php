@@ -97,7 +97,7 @@ class SmsSender
 		
 		// Set other client options
 		SmppClient::$sms_registered_delivery_flag = ($this->options['connection']['registered_delivery']) ? SMPP::REG_DELIVERY_SMSC_BOTH : SMPP::REG_DELIVERY_NO;
-		SmppClient::$sms_use_msg_payload_for_csms = $this->options['connection']['use_msg_payload'];
+		SmppClient::$csms_method = $this->options['connection']['csms_method'];
 		SmppClient::$sms_null_terminate_octetstrings = $this->options['connection']['null_terminate_octetstrings'];
 	}
 	
@@ -160,7 +160,7 @@ class SmsSender
 				
 				// Prepare message
 				$encoded = GsmEncoder::utf8_to_gsm0338($sms->message);
-				$encSender = utf8_decode($sms->sender);
+				$encSender = iconv('UTF-8',$this->options['connection']['originator_encoding'],$sms->sender);
 				if (strlen($encSender)>11) $encSender = substr($encSender,0,11); // truncate
 				
 				// Contruct SMPP Address objects
