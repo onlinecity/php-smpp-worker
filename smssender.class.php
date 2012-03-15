@@ -174,7 +174,7 @@ class SmsSender
 				
 				// Deal with flash sms (dest_addr_subunit: 0x01 - show on display only)
 				if ($sms->isFlashSms) {
-					$tags = array(new SmppTag(SmppTag::DEST_ADDR_SUBUNIT, 0x01));
+					$tags = array(new SmppTag(SmppTag::DEST_ADDR_SUBUNIT, 1, 1, 'c'));
 				} else {
 					$tags = null;
 				}
