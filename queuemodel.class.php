@@ -211,6 +211,7 @@ class SmsMessage
 	public $recipients;
 	public $retries;
 	public $lastRetry;
+	public $isFlashSms;
 	
 	/**
 	 * Create a new SMS Message to send
@@ -219,8 +220,9 @@ class SmsMessage
 	 * @param string $sender
 	 * @param string $message
 	 * @param array $recipients array of msisdns
+	 * @param boolean $isFlashSms
 	 */
-	public function __construct($id, $sender, $message, $recipients)
+	public function __construct($id, $sender, $message, $recipients, $isFlashSms=false)
 	{
 		$this->id = $id;
 		$this->sender = $sender;
@@ -228,6 +230,7 @@ class SmsMessage
 		$this->recipients = $recipients;
 		$this->retries = 0;
 		$this->lastRetry = null;
+		$this->isFlashSms = $isFlashSms;
 	}
 }
 

@@ -149,6 +149,8 @@ class SmsSender
 				if (time()-$this->lastEnquireLink >= $this->options['connection']['enquire_link_timeout']) {
 					$this->ping();
 					$this->lastEnquireLink = time();
+				} else {
+					$this->client->respondEnquireLink();
 				}
 				
 				// Queue->consume will block until there is something to do, or a 5 sec timeout is reached
@@ -172,6 +174,13 @@ class SmsSender
 					$sender = new SmppAddress($sms->sender,SMPP::TON_INTERNATIONAL,SMPP::NPI_E164);
 				}
 				
+				// Deal with flash sms (dest_addr_subunit: 0x01 - show on display only)
+				if ($sms->isFlashSms) {
+					$tags = array(new SmppTag(SmppTag::DEST_ADDR_SUBUNIT, 1, 1, 'c'));
+				} else {
+					$tags = null;
+				}
+				
 				// Send message
 				$ids = array();
 				$msisdns = array();
@@ -179,7 +188,7 @@ class SmsSender
 					$i = 0;
 					foreach ($sms->recipients as $number) {
 						$address = new SmppAddress($number,SMPP::TON_INTERNATIONAL,SMPP::NPI_E164);
-						$ids[] = $this->client->sendSMS($sender, $address, $encoded);
+						$ids[] = $this->client->sendSMS($sender, $address, $encoded, $tags);
 						$msisdns[] = $number;
 				
 						if (++$i % 10 == 0) {
