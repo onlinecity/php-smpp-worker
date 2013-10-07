@@ -149,6 +149,8 @@ class SmsSender
 				if (time()-$this->lastEnquireLink >= $this->options['connection']['enquire_link_timeout']) {
 					$this->ping();
 					$this->lastEnquireLink = time();
+				} else {
+					$this->client->respondEnquireLink();
 				}
 				
 				// Queue->consume will block until there is something to do, or a 5 sec timeout is reached
