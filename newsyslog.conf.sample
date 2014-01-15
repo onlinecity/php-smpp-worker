@@ -1,0 +1,4 @@
+# logfilename          [owner:group]    mode 	count 	size 	when  	flags [/pid_file] [sig_num]
+/var/www/smsc-smpp/worker.log		660  	30		*		@T00	J
+/var/www/smsc-smpp/errors.log		660  	30		*		@T00	J
+/var/www/smsc-smpp/trace.log			660  	30		*		@T00	J
