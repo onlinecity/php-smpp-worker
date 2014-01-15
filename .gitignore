@@ -1,2 +1,4 @@
 *.log
 *.bz2
+options.ini
+newsyslog.conf
