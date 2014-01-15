@@ -9,7 +9,7 @@ function debug($string) {
 	list($microtime, $time) = explode(' ',microtime());
 	$prefix = sprintf("%s.%02.2s P:%05s ",date('Y-m-d\TH:i:s'),(int) ($microtime*1000000),getmypid());
 	$s = $prefix.str_replace("\n","\n".$prefix."\t",trim($string))."\n";
-	file_put_contents('debug.log',$s,FILE_APPEND);
+	file_put_contents('worker.log',$s,FILE_APPEND);
 }
 
 function protocolDebug($string) {

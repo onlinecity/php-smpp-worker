@@ -66,6 +66,8 @@ class QueueManager
 	{
 		$this->queue = new QueueModel($this->options);
 		
+		openlog('php-smpp',LOG_PID,LOG_USER);
+
 		while (true) {
 			// commit suicide if the parent process no longer exists
 			if (posix_getppid() == 1) exit();
@@ -105,6 +107,7 @@ class QueueManager
 				$this->queue->produce(array($deferred));
 				
 			} else { // remove it
+				syslog(LOG_WARNING,__FILE__.': Deferred message reached max retries, ID:'.$deferred->id);
 				$this->debug('Deferred message reached max retries, ID:'.$deferred->id);
 				$this->queue->popLastDeferred();
 			}
